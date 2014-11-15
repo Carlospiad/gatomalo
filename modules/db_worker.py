@@ -6,7 +6,7 @@ from models.models import *
 import os
 import logging
 
-db_url = os.environ['panadata_development']
+db_url = os.environ['gatomalo_development']
 engine = create_engine(db_url, convert_unicode=True)
 Base.metadata.create_all(engine)
 session_maker = sessionmaker(bind=engine)
@@ -18,6 +18,10 @@ def find_or_create_cliente_from_dict(session,cliente):
         instance = Cliente.from_dict(cliente)
         session.add(instance)
         session.commit()
+    return instance
+
+def find_factura(session,factura_id):
+    instance = session.query(Factura).filter(Factura.id == factura_id).first()
     return instance
 
 def create_factura(session,cliente,productos):
@@ -32,3 +36,15 @@ def create_factura(session,cliente,productos):
         session.add_all(productos)
         session.commit()
     return factura,productos,cliente
+
+def create_nota(session,factura_id,legacy_id):
+    nota = NotaDeCredito(factura_id,legacy_id)
+    session.add(nota)
+    session.commit()
+    session.refresh(nota)
+    return nota
+
+
+def all_facturas(session):
+    facturas = session.query(Factura).all()
+    return facturas

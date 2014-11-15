@@ -10,9 +10,9 @@ from datetime import datetime
 import os
 
 from datetime import datetime
-from math import modf
+from math import modf,ceil,floor
 
-db_url = os.environ['panadata_development']
+db_url = os.environ['gatomalo_development']
 Base = declarative_base()
 engine = create_engine(db_url, convert_unicode=True, echo=True)
 Base.metadata.create_all(engine)
@@ -51,8 +51,25 @@ class Factura(Base):
     def get_productos_str(self):
         return "\n".join([str(producto) for producto in self.productos])
 
+    def get_total(self):
+        return sum([p.precio for p in self.productos])
+
+    def has_nota_de_credito(self):
+        if self.nota_de_credito:
+            return True
+        else:
+            return False
+
+    def to_json(self):
+        json = {'cliente':self.cliente.empresa,'productos' : [p.nombre for p in self.productos], 'total':float(self.get_total()), 'nota_de_credito': self.has_nota_de_credito() }
+        return json
+
     def __str__(self):
-        factura = "\n".join([str(self.cliente),self.codigo(),self.get_productos_str(),self.get_descuento(),"101\n"])
+        factura = "\n".join([str(self.cliente),self.codigo(),self.get_productos_str(),self.get_descuento(),"101\r\n"])
+        return factura
+
+    def para_nota(self):
+        factura = "\n".join([str(self.cliente),self.get_productos_str(),"101\r\n"])
         return factura
 
 class Cliente(Base):
@@ -78,7 +95,7 @@ class Cliente(Base):
         return self(cliente['empresa'],cliente['direccion'],cliente['telefono'],cliente['ruc'])
 
     def get_empresa(self):
-        return "jSNombre: %s" % self.empresa
+        return "jS%s" % self.empresa
 
     def get_direccion(self):
         return "j1Direccion: %s" % self.direccion
@@ -92,12 +109,31 @@ class Cliente(Base):
     def __str__(self):
         return "\n".join([self.get_empresa(),self.get_direccion(),self.get_telefono(),self.get_ruc()])
 
+    def __repr__(self):
+        return "\n".join([self.get_empresa(),self.get_direccion(),self.get_telefono(),self.get_ruc()])
+
+
 class NotaDeCredito(Base):
     __tablename__ = 'notas_de_credito'
     id = Column(Integer, Sequence('nota_de_credito_id_seq'), primary_key=True)
     factura_id = Column(Integer, ForeignKey('facturas.id'), unique=True)
+    legacy_id = Column(Integer)
     created_at = Column(Date, default=datetime.now)
     updated_at = Column(Date, default=datetime.now, onupdate=datetime.now)
+
+    def __init__(self, factura_id, legacy_id):
+        self.factura_id = factura_id
+        self.legacy_id = legacy_id
+
+    def get_factura(self):
+        return "jFTFBX110002122-%08d" % self.legacy_id
+
+    def get_productos_str(self):
+        return "\n".join(['d' + str(producto) for producto in self.factura.productos])
+
+    def __str__(self):
+        factura = "\n".join([self.get_factura(),str(self.factura.cliente),self.get_productos_str(),"101\r\n"])
+        return factura
 
 class Producto(Base):
     __tablename__ = 'productos'
@@ -125,13 +161,13 @@ class Producto(Base):
         elif self.tasa == 2:
             return "\""
         elif self.tasa == 3:
-            return "#"
+            return "3"
 
     def precio_entero(self):
         return modf(self.precio)[1]
 
     def precio_decimal(self):
-        return modf(self.precio)[0]
+        return floor(modf(self.precio)[0]*100)
 
     def __str__(self):
         return "%s%08d%02d%05d%03d%s" % (self.get_tasa(),self.precio_entero(),self.precio_decimal(),self.cantidad,0,self.nombre)
