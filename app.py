@@ -44,7 +44,7 @@ def get_invoice_list():
     #Get JSON
     auth = {'authtoken':authtoken,'organization_id':organization_id}
     r = requests.get(url,params=auth)
-    data = r.json()
+    data = r.json()['invoices']
     return data
 
 def get_invoice_detail(post):
@@ -64,7 +64,7 @@ def get_invoice_detail(post):
 def index():
     invoice_list = get_invoice_list()
     invoice_json = json.dumps(invoice_list)
-    return render_template('index.html', invoice_json=invoice_json)
+    return render_template('index.html', invoices=invoice_list)
 
 
 #falta agregar el argumento para buscar el id del invoice unico y asi encontrar el url correcto.

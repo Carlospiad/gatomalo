@@ -40,6 +40,7 @@
 
 
     <div class="container">
+
       <h1>Json</h1>
 
       <form action="{{ url_for('create_invoice_json') }}" method="post">
@@ -49,9 +50,7 @@
         </div>
         <input class="btn btn-default" type="submit" value="Download Json" />
       </form>
-    </div>
-
-    <div class="container">
+      <hr>
       <h1>GatoMalo</h1>
 
       <form action="{{ url_for('print_gatomalo') }}" method="post">
@@ -61,8 +60,32 @@
         </div>
         <input class="btn btn-default" type="submit" value="Print in Gatomalo Directly" />
       </form>
-    </div>
 
+
+    <hr>
+    <h1>Facturas</h1>
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Cliente</th>
+          <th>Monto</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+    	{% for invoice in invoices %}
+        <tr>
+          <th scope="row">{{ invoice.invoice_id }}</th>
+          <td>{{ invoice.customer_name}}</td>
+          <td>{{ "${:,.2f}".format(invoice.total) }}</td>
+          <td>{{ invoice.date }}</td>
+        </tr>
+    	{% endfor %}
+      </tbody>
+    </table>
+
+    </div>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -71,10 +94,5 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/typeahead.bundle.min.js') }}"></script>
 
-    <script>
-      var obj = {{ invoice_json|safe }};
-    </script>
-    <script>
-    </script>
   </body>
 </html>
