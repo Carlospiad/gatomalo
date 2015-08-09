@@ -86,10 +86,9 @@ def translate_product(product):
         tasa = 'error'
     return {"nombre":product['name'],"cantidad":1, "tasa":tasa,"precio":product['item_total']}
 
-@app.route('/create_invoice_json', methods=['POST'])
+@app.route('/create_invoice_json/<invoice_id>')
 #falta agregar el argumento para buscar el id del invoice unico y asi encontrar el url correcto.
-def create_invoice_json():
-    invoice_id = request.form['invoice_id']
+def create_invoice_json(invoice_id):
     data=get_invoice_detail(invoice_id)
     proforma_number = data["invoice"]["invoice_number"]
     customer_name = data["invoice"]["customer_name"]
@@ -114,10 +113,10 @@ def create_invoice_json():
             mimetype='application/json',
             headers={'Content-Disposition':'attachment;filename='+proforma_number+'.json'})
 
-@app.route('/print_gatomalo', methods=['POST'])
-def print_gatomalo():
-    invoice_id = request.form['invoice_id']
+@app.route('/print_gatomalo/<invoice_id>')
+def print_gatomalo(invoice_id):
     data=get_invoice_detail(invoice_id)
+    print(data)
     proforma_number = data["invoice"]["invoice_number"]
     customer_name = data["invoice"]["customer_name"]
     address = data["invoice"]["billing_address"]["address"]
