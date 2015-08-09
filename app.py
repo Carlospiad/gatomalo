@@ -86,28 +86,19 @@ def translate_product(product):
         tasa = 'error'
     return {"nombre":product['name'],"cantidad":1, "tasa":tasa,"precio":product['item_total']}
 
+def parse_invoice_data(data):
+    customer_name = data["invoice"]["customer_name"]
+    address = data["invoice"]["billing_address"]["address"]
+    phone_number = data["invoice"]["customer_name"]
+    productos = [translate_product(p) for p in data["invoice"]["line_items"]]
+    return {"factura":{"cliente":{"empresa":"" + customer_name + "","direccion":"" + address + "","telefono":"","ruc":"0"}, "productos":productos}}
+
 @app.route('/create_invoice_json/<invoice_id>')
 #falta agregar el argumento para buscar el id del invoice unico y asi encontrar el url correcto.
 def create_invoice_json(invoice_id):
     data=get_invoice_detail(invoice_id)
     proforma_number = data["invoice"]["invoice_number"]
-    customer_name = data["invoice"]["customer_name"]
-    address = data["invoice"]["billing_address"]["address"]
-    phone_number = data["invoice"]["customer_name"]
-    #ruc = data["invoice"]["customer_name"]
-    #print (type(data))
-    #for key, value in data.items():
-    #    print (value)
-    #    print ("")
-
-    products = data["invoice"]["line_items"]
-    productos = [translate_product(p) for p in  products]
-
-    fisc = {"factura":{"cliente":{"empresa":"" + customer_name + "","direccion":"" + address + "","telefono":"","ruc":"0"}, "productos":productos}}
-    fiscal_json = json.dumps(fisc, ensure_ascii=False).encode('utf8')
-
-    #fiscal_string = '{"factura":{"cliente":{"empresa":'+"\""+customer_name+"\""+',"direccion":"","telefono":"","ruc":"0"}}}'
-    #fiscal_json = json.dumps(json.loads(fiscal_string))
+    fiscal_json = json.dumps(parse_invoice_data(data), ensure_ascii=False).encode('latin1')
 
     return Response(fiscal_json,
             mimetype='application/json',
@@ -115,36 +106,18 @@ def create_invoice_json(invoice_id):
 
 @app.route('/print_gatomalo/<invoice_id>')
 def print_gatomalo(invoice_id):
-    data=get_invoice_detail(invoice_id)
-    print(data)
-    proforma_number = data["invoice"]["invoice_number"]
-    customer_name = data["invoice"]["customer_name"]
-    address = data["invoice"]["billing_address"]["address"]
-    phone_number = data["invoice"]["customer_name"]
-    #ruc = data["invoice"]["customer_name"]
-    #print (type(data))
-    #for key, value in data.items():
-    #    print (value)
-    #    print ("")
-
-    products = data["invoice"]["line_items"]
-    productos = [translate_product(p) for p in  products]
-
-    fisc = {"factura":{"cliente":{"empresa":"" + customer_name + "","direccion":"" + address + "","telefono":"","ruc":"0"}, "productos":productos}}
-    fiscal_json = json.dumps(fisc, ensure_ascii=False).encode('utf8')
-
+    data = get_invoice_detail(invoice_id)
+    data = parse_invoice_data(data)
+    factura,productos,cliente = create_factura(data['factura']['cliente'],data['factura']['productos'])
+    fiscal_json = json.dumps(data, ensure_ascii=False).encode('latin1')
     resp = Response(fiscal_json, status=200, mimetype='application/json')
     resp.headers['Link'] = 'http://localhost:5000/facturas'
-
-    #fiscal_string = '{"factura":{"cliente":{"empresa":'+"\""+customer_name+"\""+',"direccion":"","telefono":"","ruc":"0"}}}'
-    #fiscal_json = json.dumps(json.loads(fiscal_string))
     return resp
 
 @app.route('/facturas', methods = ['POST'])
-def create_factura():
+def make_factura():
     session = session_maker()
     print(request.json)
-#    return str(request.form['factura[cliente][empresa]'])
     if request.json and 'factura' in request.json:
         productos = request.json['factura']['productos']
         cliente =  request.json['factura']['cliente']
@@ -160,6 +133,16 @@ def create_factura():
             session.rollback()
     printer.write_string_to_printer(str(factura))
     return str(factura)
+
+def create_factura(cliente,productos):
+    session = session_maker()
+    try:
+        factura,productos,cliente = db_worker.create_factura(session,cliente,productos)
+    except Exception as e:
+            raise(e)
+            session.rollback()
+    printer.write_string_to_printer(str(factura))
+    return factura,productos,cliente
 
 @app.route('/nota', methods = ['POST'])
 def create_nota():
@@ -185,4 +168,4 @@ def get_facturas():
     return jsonify({f.id:f.to_json() for f in facturas})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True).encode('latin1')
