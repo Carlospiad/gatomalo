@@ -7,25 +7,29 @@ Before you can use Gatomalo you need Python3.4 with virtualenv:
 ##Installation Instructions
 1. Make sure you have pyvenv installed
 2. First, go to directory and activate the pyvenv
-```
-source venv/bin/activate
-```
+  ```
+  source venv/bin/activate
+  ```
+
 3. install the Dependencies
-```
-pip install -r requirement.txt
-```
+  ```
+  pip install -r requirement.txt
+  ```
+
 4. Create db in Mac OSX
-```
-createdb gatomalo
-```
+  ```
+  createdb gatomalo
+  ```
+
 5. Setup the db
-```
-export gatomalo_development='postgresql:///gatomalo'
-```
+  ```
+  export gatomalo_development='postgresql:///gatomalo'
+  ```
+
 6. Run the app
-```
-python3 app.py
-```
+  ```
+  python3 app.py
+  ```
 
 ##Usage Instructions
 ### Manual commands
@@ -48,15 +52,15 @@ python3 app.py
   ```
 
 4. dev.json default format:
-  factura_id: es el número que se encuentra en localhost:5000/facturas
-  legacy_id: es el número impreso en la factura fiscal
+    factura_id: es el número que se encuentra en localhost:5000/facturas
+    legacy_id: es el número impreso en la factura fiscal
     ```json
     {"nota": {
     "factura_id":104,
     "legacy_id":140
     }}
     ```
-    
+
 5. reporte con rango de fechas de facturas impresas
     ```
     fecha de inicio YYYMMDD
