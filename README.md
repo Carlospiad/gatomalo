@@ -31,15 +31,16 @@ python3 app.py
 ### Manual commands
 
 1. To send a Factura JSON:
-```
-curl http://localhost:5000/facturas --data     @fact.json -H 'Content-Type: application/json'
-```
+      ```
+      curl http://localhost:5000/facturas --data     @fact.json -H 'Content-Type: application/json'
+      ```
+
 2. To print Reporte X y Z
-got to `cd /gatomalo` and run 
-```
-sudo ./tfunilx SendCmd I0X
-sudo ./tfunilx SendCmd I0Z
-```
+  got to `cd /gatomalo` and run 
+  ```
+  sudo ./tfunilx SendCmd I0X
+  sudo ./tfunilx SendCmd I0Z
+  ```
 3. to create a Nota de Credito (devolucion)
 ```
 curl http://192.168.1.3:5000/nota --data     @dev.json -H 'Content-Type: application/json'
