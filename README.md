@@ -34,19 +34,16 @@ python3 app.py
 ```
 curl http://localhost:5000/facturas --data     @fact.json -H 'Content-Type: application/json'
 ```
-
 2. To print Reporte X y Z
 ```
 # in /gatomalo:
 sudo ./tfunilx SendCmd I0X
 sudo ./tfunilx SendCmd I0Z
 ```
-
 3. to create a Nota de Credito (devolucion)
 ```
 curl http://192.168.1.3:5000/nota --data     @dev.json -H 'Content-Type: application/json'
 ```
-
 4. dev.json default format:
 factura_id: es el número que se encuentra en localhost:5000/facturas
 legacy_id: es el número impreso en la factura fiscal
@@ -64,8 +61,10 @@ RfYYYMMDDyyymmdd
 ejemplo (del 1ero de enero de 2014 hasta el 1ero de diciembre de 2014.
 sudo ./tfunilx SendCmd Rf01401010150401
 ```
+
 ## Improvement
 If you want to install new dependencies please:
+
 1. activate the pyvenv first
 2. install the dependency you need
 3. Add the dependencies to the requierement list (only run the next code):
