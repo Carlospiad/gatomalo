@@ -1,13 +1,14 @@
 #gatomalo
 
 ##Dependencies
-Before you can use gatomalo you need Python3 with virtualenv:
+Before you can use Gatomalo you need Python3.4 with virtualenv:
 
 
 ##Installation Instructions
 
 
-1. First, activate the pyvenv
+1. Make sure you have pyvenv installed
+1. First, go to directory and activate the pyvenv
 ```
 source venv/bin/activate
 ```
@@ -15,9 +16,12 @@ source venv/bin/activate
 ```
 pip install -r requirement.txt
 ```
-3. Setup the db
+3. Create db in Mac OSX
 ```
 createdb gatomalo
+```
+3. Setup the db
+```
 export gatomalo_development='postgresql:///gatomalo'
 ```
 3. Run the app
