@@ -35,8 +35,8 @@ python3 app.py
 curl http://localhost:5000/facturas --data     @fact.json -H 'Content-Type: application/json'
 ```
 2. To print Reporte X y Z
+got to `cd /gatomalo` and run 
 ```
-# in /gatomalo:
 sudo ./tfunilx SendCmd I0X
 sudo ./tfunilx SendCmd I0Z
 ```
