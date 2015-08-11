@@ -1,7 +1,7 @@
 #gatomalo
 
 ##Dependencies
-Before you can use Gatomalo you need Python3.4 with virtualenv:
+Before you can use Gatomalo you need Python3.4 with pyvenv:
 
 
 ##Installation Instructions
