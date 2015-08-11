@@ -41,10 +41,12 @@ python3 app.py
   sudo ./tfunilx SendCmd I0X
   sudo ./tfunilx SendCmd I0Z
   ```
+
 3. to create a Nota de Credito (devolucion)
   ```
   curl http://192.168.1.3:5000/nota --data     @dev.json -H 'Content-Type: application/json'
   ```
+
 4. dev.json default format:
   factura_id: es el número que se encuentra en localhost:5000/facturas
   legacy_id: es el número impreso en la factura fiscal
@@ -54,6 +56,7 @@ python3 app.py
     "legacy_id":140
     }}
     ```
+    
 5. reporte con rango de fechas de facturas impresas
     ```
     fecha de inicio YYYMMDD
