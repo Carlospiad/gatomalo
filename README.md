@@ -79,6 +79,7 @@ If you want to install new dependencies please:
   ```
   pip freeze > requirement.txt
   ```
+
 ##Credits
 
 Special thanks to:
