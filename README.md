@@ -48,20 +48,20 @@ python3 app.py
 4. dev.json default format:
   factura_id: es el número que se encuentra en localhost:5000/facturas
   legacy_id: es el número impreso en la factura fiscal
-  ```json
-  {"nota": {
-  "factura_id":104,
-  "legacy_id":140
-  }}
-  ```
+    ```json
+    {"nota": {
+    "factura_id":104,
+    "legacy_id":140
+    }}
+    ```
 5. reporte con rango de fechas de facturas impresas
-  ```
-  fecha de inicio YYYMMDD
-  fecha de fin yyymmdd
-  RfYYYMMDDyyymmdd
-  ejemplo (del 1ero de enero de 2014 hasta el 1ero de diciembre de 2014.
-  sudo ./tfunilx SendCmd Rf01401010150401
-  ```
+    ```
+    fecha de inicio YYYMMDD
+    fecha de fin yyymmdd
+    RfYYYMMDDyyymmdd
+    ejemplo (del 1ero de enero de 2014 hasta el 1ero de diciembre de 2014.
+    sudo ./tfunilx SendCmd Rf01401010150401
+    ```
 
 ## Improvement
 If you want to install new dependencies please:
