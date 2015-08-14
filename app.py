@@ -179,4 +179,4 @@ def reporteZ():
 
 
 if __name__ == "__main__":
-    app.run(debug=True).encode('latin1')
+    app.run(debug=True, host='0.0.0.0').encode('latin1')
