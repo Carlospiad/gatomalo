@@ -167,5 +167,16 @@ def get_facturas():
     facturas = db_worker.all_facturas(session)
     return jsonify({f.id:f.to_json() for f in facturas})
 
+@app.route('/reporteX')
+def reporteX():
+    printer.write_string_to_printer('I0X')
+    return
+
+@app.route('/reporteZ')
+def reporteZ():
+    printer.write_string_to_printer('I0Z')
+    return
+
+
 if __name__ == "__main__":
     app.run(debug=True).encode('latin1')
