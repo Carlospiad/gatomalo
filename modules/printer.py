@@ -1,7 +1,8 @@
 import subprocess
 import tempfile
+import os
 
-tfunilx = '/home/bacon/gatomalo/tfunilx'
+tfunilx = os.getcwd() + '/tfunilx'
 
 def write_string_to_printer(string):
     fp = tempfile.NamedTemporaryFile(delete=False)
