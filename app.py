@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, jsonify,request,abort,render_template, Response, request
+from flask import Flask, jsonify,request,abort,render_template, Response, request, redirect, url_for
 from sqlalchemy.sql import exists
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -170,12 +170,12 @@ def get_facturas():
 @app.route('/reporteX')
 def reporteX():
     printer.write_string_to_printer('I0X')
-    return
+    return redirect(url_for('.index'))
 
 @app.route('/reporteZ')
 def reporteZ():
     printer.write_string_to_printer('I0Z')
-    return
+    return redirect(url_for('.index'))
 
 
 if __name__ == "__main__":
