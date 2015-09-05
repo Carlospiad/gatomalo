@@ -39,13 +39,17 @@
       </div>
     </nav>
 
+  <div class="container">
 
+  </div>
 
     <div class="container">
-      <div class="btn-group pull-right" role="group" aria-label="...">
-        <a href="/reporteX" class="button btn btn-default">Reporte X</a>
-        <a href="/reporteZ" class="button btn btn-default">Reporte Z</a>
-      </div>
+      <form action="/print_report" method="post">
+        <div class="btn-group pull-right" role="group" aria-label="...">
+          <input type="submit" name="submit" value="Reporte X" class="button btn btn-default">
+          <input type="submit" name="submit" value="Reporte Z" class="button btn btn-default">
+        </div>
+      </form>
     <h1>Facturas</h1>
     <table class="table table-condensed">
       <thead>

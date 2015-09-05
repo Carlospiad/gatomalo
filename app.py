@@ -167,14 +167,15 @@ def get_facturas():
     facturas = db_worker.all_facturas(session)
     return jsonify({f.id:f.to_json() for f in facturas})
 
-@app.route('/reporteX')
-def reporteX():
-    printer.write_string_to_printer('I0X')
-    return redirect(url_for('.index'))
 
-@app.route('/reporteZ')
-def reporteZ():
-    printer.write_string_to_printer('I0Z')
+@app.route('/print_report', methods = ['POST'])
+def print_report():
+    if request.form['submit'] == 'Reporte X':
+        printer.write_string_to_printer('I0X')
+    elif request.form['submit'] == 'Reporte Z':
+        printer.write_string_to_printer('I0Z')
+    else:
+        print('WRONG VALUE')
     return redirect(url_for('.index'))
 
 
