@@ -39,17 +39,52 @@
       </div>
     </nav>
 
-  <div class="container">
 
-  </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Seleccionar rango de fechas</h4>
+          </div>
+          <div class="modal-body">
+
+            <form action="/print_report" method='post' class="form-inline">
+              Inicio:<input type="date" class="form-control" name="start_date">
+              Fin:<input type="date" class="form-control" name="end_date">
+
+
+
+          </div>
+          <div class="modal-footer">
+
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" name="submit" value="ReportDate" class="btn btn-default">
+                Print Report
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="container">
+
       <form action="/print_report" method="post">
         <div class="btn-group pull-right" role="group" aria-label="...">
-          <input type="submit" name="submit" value="Reporte X" class="button btn btn-default">
-          <input type="submit" name="submit" value="Reporte Z" class="button btn btn-default">
+          <button type="submit" name="submit" value="ReporteX" class="btn btn-default">Reporte X</button>
+          <button type="submit" name="submit" value="ReporteZ" class="btn btn-default">Reporte Z</button>
         </div>
       </form>
+
+      <!-- Button trigger modal -->
+      <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+          Reporte Fiscales Impresas
+        </button>
+      </div>
+
     <h1>Facturas</h1>
     <table class="table table-condensed">
       <thead>

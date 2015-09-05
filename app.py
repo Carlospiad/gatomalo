@@ -170,10 +170,20 @@ def get_facturas():
 
 @app.route('/print_report', methods = ['POST'])
 def print_report():
-    if request.form['submit'] == 'Reporte X':
-        printer.write_string_to_printer('I0X')
-    elif request.form['submit'] == 'Reporte Z':
-        printer.write_string_to_printer('I0Z')
+    if request.form['submit'] == 'ReporteX':
+        print('xxxx xxxx xxx ')
+        #printer.write_string_to_printer('I0X')
+    elif request.form['submit'] == 'ReporteZ':
+        print('zzz zzzzzz zzz ')
+        #printer.write_string_to_printer('I0Z')
+    elif request.form['submit'] == 'ReportDate':
+        start_date = request.form['start_date']
+        end_date = request.form['end_date']
+        sd = start_date[1:4] + start_date[5:7] + start_date[8:10]
+        ed = end_date[1:4] + end_date[5:7] + end_date[8:10]
+        cmd = 'Rf'+ sd + ed
+        print(cmd)
+        #printer.write_string_to_printer('I0X')
     else:
         print('WRONG VALUE')
     return redirect(url_for('.index'))
