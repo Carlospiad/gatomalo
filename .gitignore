@@ -21,6 +21,8 @@ sdist/
 var/
 *.egg-info/
 .installed.cfg
+pyvenv.cfg
+pip-selfcheck.json
 *.egg
 
 # Installer logs
@@ -52,4 +54,3 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-
